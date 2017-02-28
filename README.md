@@ -40,6 +40,14 @@ Running...
 
 ## Example transaction conflict
 
+Note: make sure `wsrep_log_conflicts` is enabled or these conflicts will not get logged
+
+```
+mysql> set global wsrep_log_conflicts=ON
+```
+
+sample logs
+
 ```
 cat queries.txt
 update tblzone_time set time_in_mins = "22 mins" where key_value = "key value"
