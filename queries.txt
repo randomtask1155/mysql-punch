@@ -1,0 +1,2 @@
+update tblzone_time set time_in_mins = "22 mins" where key_value = "key value"
+update tblzone_time set time_in_mins = "11 mins" where key_value = "key value"
