@@ -3,12 +3,17 @@ package main
 import (
   "testing"
   "fmt"
+  "os"
+  "path"
+  "time"
+  "io/ioutil"
 )
 
 
 
 func TestRunTests(t *testing.T) {
    tgetNextServer(t)
+   treadQueries(t)
 }
 
 func tgetNextServer(t *testing.T) {
@@ -34,3 +39,20 @@ func tgetNextServer(t *testing.T) {
       }
     }
   }
+  
+func treadQueries(t *testing.T) {
+  *query = path.Join(os.TempDir(), fmt.Sprintf("mysql-punch-readq-tempfile-%d", time.Now().Unix()) )
+  data := []byte("select 1\nselect 1\n\n")
+  err := ioutil.WriteFile(*query, data, 0666)
+  if err != nil {
+    t.Fatal(err)
+  }
+  readQueries()
+  
+  for i := range queries {
+    if queries[i] == "" {
+      t.Fatal(fmt.Errorf("Null found in queries"))
+    }
+  }
+  
+}

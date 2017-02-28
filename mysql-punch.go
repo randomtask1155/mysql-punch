@@ -56,13 +56,19 @@ func getNextServer() int {
 }
 
 func readQueries() {
+  queries = make([]string,0)
   b, err := ioutil.ReadFile(*query)
   if err != nil {
     fmt.Println(err)
     os.Exit(1)
   }
   s := fmt.Sprintf("%s", b)
-  queries = strings.Split(s, "\n")
+  q := strings.Split(s, "\n")
+  for i := range q { // filter out any null lines
+    if q[i] != "" {
+      queries = append(queries, q[i])
+    }
+  }
 }
 
 func spingSQL(i int, errMsg chan error, kill chan int) {
